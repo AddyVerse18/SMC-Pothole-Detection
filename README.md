@@ -1,7 +1,7 @@
 # SMC Smart Road Maintenance Dashboard
 ### Real-Time IoT Pothole Detection Platform (Frontend)
 
-![Dashboard Preview](https://picsum.photos/seed/dashboard/1200/600)
+![Dashboard Preview](./public/preview.png)
 
 This is the fully interactive, responsive React frontend designed to serve as a **Live IoT Listener** for the SMC Road Maintenance project. It connects cleanly to a Django backend receiving data from a Raspberry Pi Zero W edge unit.
 
