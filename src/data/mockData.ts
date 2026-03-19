@@ -1,0 +1,98 @@
+import type { PotholeDetection } from '../types';
+
+export const MOCK_POTHOLES: PotholeDetection[] = [
+  {
+    id: 'ph-001',
+    lat: 21.1765,
+    lng: 72.8314,
+    severity: 'critical',
+    timestamp: new Date(Date.now() - 1000 * 60 * 3).toISOString(),
+    deviceId: 'PI-ZERO-001',
+    address: 'Ring Road, Near Sagram Chowk',
+    roadName: 'Ring Road',
+    confidence: 97,
+  },
+  {
+    id: 'ph-002',
+    lat: 21.1630,
+    lng: 72.8200,
+    severity: 'high',
+    timestamp: new Date(Date.now() - 1000 * 60 * 11).toISOString(),
+    deviceId: 'PI-ZERO-001',
+    address: 'Adajan Patiya, Adajan Road',
+    roadName: 'Adajan Road',
+    confidence: 91,
+  },
+  {
+    id: 'ph-003',
+    lat: 21.1580,
+    lng: 72.8410,
+    severity: 'medium',
+    timestamp: new Date(Date.now() - 1000 * 60 * 28).toISOString(),
+    deviceId: 'PI-ZERO-001',
+    address: 'Varachha Road, Kapodra Chowk',
+    roadName: 'Varachha Road',
+    confidence: 84,
+  },
+  {
+    id: 'ph-004',
+    lat: 21.1820,
+    lng: 72.8160,
+    severity: 'high',
+    timestamp: new Date(Date.now() - 1000 * 60 * 45).toISOString(),
+    deviceId: 'PI-ZERO-001',
+    address: 'Athwa Gate, Nana Varachha',
+    roadName: 'Nana Varachha Road',
+    confidence: 88,
+  },
+  {
+    id: 'ph-005',
+    lat: 21.1510,
+    lng: 72.8295,
+    severity: 'low',
+    timestamp: new Date(Date.now() - 1000 * 60 * 72).toISOString(),
+    deviceId: 'PI-ZERO-001',
+    address: 'Udhna Darwaja, Udhna Main Road',
+    roadName: 'Udhna Main Road',
+    confidence: 76,
+  },
+  {
+    id: 'ph-006',
+    lat: 21.1702,
+    lng: 72.8540,
+    severity: 'critical',
+    timestamp: new Date(Date.now() - 1000 * 60 * 90).toISOString(),
+    deviceId: 'PI-ZERO-001',
+    address: 'Katargam, Hanuman Tekri Road',
+    roadName: 'Hanuman Tekri Road',
+    confidence: 95,
+  },
+  {
+    id: 'ph-007',
+    lat: 21.1880,
+    lng: 72.8370,
+    severity: 'medium',
+    timestamp: new Date(Date.now() - 1000 * 60 * 115).toISOString(),
+    deviceId: 'PI-ZERO-001',
+    address: 'Rander Road, Near Sachin GIDC',
+    roadName: 'Rander Road',
+    confidence: 82,
+  },
+  {
+    id: 'ph-008',
+    lat: 21.1650,
+    lng: 72.8475,
+    severity: 'high',
+    timestamp: new Date(Date.now() - 1000 * 60 * 140).toISOString(),
+    deviceId: 'PI-ZERO-001',
+    address: 'Piplod, VIP Road Junction',
+    roadName: 'VIP Road',
+    confidence: 90,
+  },
+];
+
+export const getRecentPotholes = (count: number = 5): PotholeDetection[] => {
+  return [...MOCK_POTHOLES]
+    .sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime())
+    .slice(0, count);
+};
