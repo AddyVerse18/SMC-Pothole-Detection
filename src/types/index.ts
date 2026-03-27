@@ -8,6 +8,18 @@ export interface PotholeDetection {
   address: string;
   roadName: string;
   confidence: number; // 0-100
+  zone: 'Athwa' | 'Varachha' | 'Limbayat' | 'Katargam' | 'Adajan';
+  status: 'pending' | 'resolved' | 'assigned' | 'in-queue';
+}
+
+export interface RoadSegment {
+  id: string;
+  roadName: string;
+  path: [number, number][]; // Array of [lat, lng]
+  severity: 'critical' | 'medium' | 'healthy';
+  avgConfidence: number;
+  zone: 'Athwa' | 'Varachha' | 'Limbayat' | 'Katargam' | 'Adajan';
+  totalDetections: number;
 }
 
 export interface NavItem {

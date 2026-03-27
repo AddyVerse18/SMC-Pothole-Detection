@@ -1,13 +1,15 @@
-import { MOCK_POTHOLES } from '../../data/mockData';
+import { useSimulation } from '../../context/SimulationContext';
 import { AlertTriangle, Activity, Cpu, TrendingUp } from 'lucide-react';
 
 export default function KpiHeader() {
-  const today = MOCK_POTHOLES.length; // mock: all are "today"
-  const critical = MOCK_POTHOLES.filter((p) => p.severity === 'critical').length;
-  const activeDevices = [...new Set(MOCK_POTHOLES.map((p) => p.deviceId))].length;
-  const avgConfidence = Math.round(
-    MOCK_POTHOLES.reduce((sum, p) => sum + p.confidence, 0) / MOCK_POTHOLES.length
-  );
+  const { complaints } = useSimulation();
+
+  const today = complaints.length; 
+  const critical = complaints.filter((p) => p.severity === 'critical').length;
+  const activeDevices = [...new Set(complaints.map((p) => p.deviceId))].length;
+  const avgConfidence = complaints.length > 0 
+    ? Math.round(complaints.reduce((sum, p) => sum + p.confidence, 0) / complaints.length)
+    : 0;
 
   const tiles = [
     {

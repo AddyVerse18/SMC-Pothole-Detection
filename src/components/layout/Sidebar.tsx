@@ -1,14 +1,16 @@
 import { NavLink, useNavigate } from 'react-router-dom';
-import { Map, FlameKindling, Cpu, Settings, Shield, LogOut } from 'lucide-react';
+import { Map, FlameKindling, BarChart2, Cpu, Settings, Shield, LogOut, ListTodo, PlusCircle } from 'lucide-react';
 
 const navItems = [
-  { id: 'map',      label: 'Live Map',       icon: Map,           path: '/dashboard',          end: true },
-  { id: 'heatmaps', label: 'Heatmaps',       icon: FlameKindling, path: '/dashboard/heatmaps', end: false },
-  { id: 'devices',  label: 'Device Status',  icon: Cpu,           path: '/dashboard/devices',  end: false },
-  { id: 'admin',    label: 'Admin Settings', icon: Settings,      path: '/dashboard/admin',    end: false },
+  { id: 'map',      label: 'Live Map',        icon: Map,           path: '/dashboard',          end: true },
+  { id: 'complaints', label: 'System Records', icon: ListTodo,      path: '/dashboard/complaints', end: false },
+  { id: 'heatmaps', label: 'Heatmaps',        icon: FlameKindling, path: '/dashboard/heatmaps', end: false },
+  { id: 'zonal',    label: 'Zonal Analytics', icon: BarChart2,      path: '/dashboard/zonal',    end: false },
+  { id: 'devices',  label: 'Device Status',   icon: Cpu,           path: '/dashboard/devices',  end: false },
+  { id: 'admin',    label: 'Admin Settings',  icon: Settings,      path: '/dashboard/admin',    end: false },
 ];
 
-export default function Sidebar() {
+export default function Sidebar({ onReportClick }: { onReportClick: () => void }) {
   const navigate = useNavigate();
 
   return (
@@ -51,6 +53,15 @@ export default function Sidebar() {
             )}
           </NavLink>
         ))}
+
+        {/* Manual Report Trigger */}
+        <button
+          onClick={onReportClick}
+          className="flex flex-col md:flex-row items-center gap-1 md:gap-3 px-2 md:px-3.5 py-1.5 md:py-2.5 rounded-lg text-indigo-600 hover:bg-indigo-50 transition-all duration-150 cursor-pointer whitespace-nowrap md:border-l-2 md:border-t-0 border-t-2 border-transparent md:mt-4"
+        >
+          <PlusCircle className="w-5 h-5 flex-shrink-0" strokeWidth={2} />
+          <span className="text-[10px] md:text-sm font-bold overflow-hidden whitespace-nowrap">Report Pothole</span>
+        </button>
       </nav>
 
       {/* Footer (Hidden on mobile) */}

@@ -1,5 +1,5 @@
-import { MOCK_POTHOLES } from '../data/mockData';
-import type { PotholeDetection } from '../types';
+import { MOCK_POTHOLES, ROAD_SEGMENTS } from '../data/mockData';
+import type { PotholeDetection, RoadSegment } from '../types';
 import type { IoTPotholePayload, IoTDeviceHealth } from '../types/iot';
 
 /**
@@ -16,8 +16,13 @@ export const api = {
    * Replace with: return axios.get('/api/potholes').then(res => res.data);
    */
   async getPotholes(): Promise<PotholeDetection[]> {
-    await delay(300); // 300ms is enough for local dashboard dev
+    await delay(300);
     return [...MOCK_POTHOLES];
+  },
+
+  async getRoadSegments(): Promise<RoadSegment[]> {
+    await delay(300);
+    return [...ROAD_SEGMENTS];
   },
 
   /**

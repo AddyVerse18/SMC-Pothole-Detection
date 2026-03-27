@@ -1,0 +1,15 @@
+-----
+Error: Unexpected token '<', "<html>
+<h"... is not valid JSON
+-----
+Error: Unexpected token '<', "<html>
+<h"... is not valid JSON
+-----
+Error: Unexpected token '<', "<html>
+<h"... is not valid JSON
+-----
+Error: Unexpected token '<', "<html>
+<h"... is not valid JSON
+-----
+Error: Unexpected token '<', "<html>
+<h"... is not valid JSON

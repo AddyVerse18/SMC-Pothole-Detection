@@ -1,7 +1,8 @@
 import { useEffect, useRef } from 'react';
 import type { PotholeDetection } from '../../types';
 import { useDashboard, STATUS_MAP } from '../../context/DashboardContext';
-import { Clock, Cpu, MapPin, ChevronRight, Activity, Search, Filter } from 'lucide-react';
+import { useSimulation } from '../../context/SimulationContext';
+import { Clock, Cpu, MapPin, Activity, Search, Filter } from 'lucide-react';
 
 type JobStatus = 'In Queue' | 'Assigned' | 'Repaired';
 
@@ -39,8 +40,9 @@ interface TaskCardProps {
 }
 
 function TaskCard({ pothole, isSelected, onClick }: TaskCardProps) {
-  const rawStatus = STATUS_MAP[pothole.id] || 'pending';
-  const status: JobStatus = rawStatus === 'resolved' ? 'Repaired' : rawStatus === 'pending' ? 'Assigned' : 'In Queue';
+  const statusKey = pothole.status as keyof typeof STATUS_MAP;
+  const rawStatus = STATUS_MAP[statusKey]?.label || 'In Queue';
+  const status: JobStatus = rawStatus === 'Repaired' ? 'Repaired' : rawStatus === 'Assigned' ? 'Assigned' : 'In Queue';
   
   const elRef = useRef<HTMLDivElement>(null);
 
@@ -119,7 +121,6 @@ function TaskCard({ pothole, isSelected, onClick }: TaskCardProps) {
 
 export default function ActivityFeed() {
   const { 
-    potholes, 
     isLoading, 
     selectedPotholeId, 
     setSelectedPotholeId,
@@ -128,6 +129,23 @@ export default function ActivityFeed() {
     searchQuery,
     setSearchQuery
   } = useDashboard();
+
+  const { complaints } = useSimulation();
+
+  const filteredComplaints = complaints.filter((p: PotholeDetection) => {
+    const q = (searchQuery || '').toLowerCase();
+    const id = (p.id || '').toLowerCase();
+    const road = (p.roadName || '').toLowerCase();
+    
+    const matchSearch = id.includes(q) || road.includes(q);
+    
+    // Custom filter mapping for DashboardContext filters
+    if (activeFilter === 'pending') return p.status === 'pending' && matchSearch;
+    if (activeFilter === 'resolved') return p.status === 'resolved' && matchSearch;
+    if (activeFilter === 'critical') return p.severity === 'critical' && matchSearch;
+    
+    return matchSearch;
+  });
 
   return (
     <div className="w-[340px] flex-shrink-0 bg-slate-50 border-l border-slate-200 flex flex-col h-full z-10">
@@ -150,6 +168,8 @@ export default function ActivityFeed() {
           <div className="relative">
             <Search className="w-3.5 h-3.5 text-slate-400 absolute left-2.5 top-1/2 -translate-y-1/2" />
             <input
+              id="feed-search"
+              name="feed-search"
               type="text"
               placeholder="Search by road or ID..."
               value={searchQuery}
@@ -185,14 +205,14 @@ export default function ActivityFeed() {
             <div className="w-6 h-6 border-2 border-indigo-600 border-t-transparent rounded-full animate-spin" />
             Loading fleet data...
           </div>
-        ) : potholes.length === 0 ? (
+        ) : filteredComplaints.length === 0 ? (
           <div className="absolute inset-0 flex flex-col items-center justify-center text-center p-6 pb-20 text-slate-400">
             <Search className="w-8 h-8 opacity-20 mb-2" />
             <p className="text-sm font-medium">No results found</p>
             <p className="text-xs mt-1">Try adjusting your filters</p>
           </div>
         ) : (
-          potholes.map((pothole) => (
+          filteredComplaints.map((pothole: PotholeDetection) => (
             <TaskCard
               key={pothole.id}
               pothole={pothole}
@@ -206,7 +226,7 @@ export default function ActivityFeed() {
       {/* Footer */}
       <div className="px-4 py-3 border-t border-slate-200 bg-white">
          <p className="text-slate-400 text-[11px] text-center font-medium">
-           Showing {potholes.length} active jobs
+           Showing {filteredComplaints.length} active jobs
          </p>
       </div>
     </div>
