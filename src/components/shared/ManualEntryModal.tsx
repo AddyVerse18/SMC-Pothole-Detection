@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, MapPin, AlertTriangle, User, Send } from 'lucide-react';
-import { SMCZone, SuratArea, SURAT_AREAS, ROADS, ZONES } from '../../data/simulationData';
+import { X, MapPin, User, Send } from 'lucide-react';
+import { SuratArea, SURAT_AREAS, ROADS, ZONES } from '../../data/simulationData';
 import { PotholeDetection } from '../../types';
 
 interface ManualEntryModalProps {
@@ -58,7 +58,7 @@ export const ManualEntryModal: React.FC<ManualEntryModalProps> = ({ isOpen, onCl
               e.preventDefault();
               onSubmit({
                 ...formData,
-                zone: pick(ZONES) as any, // Mock zone mapping for simplicity OR let user pick
+                zone: pick([...ZONES]) as any, // Mock zone mapping for simplicity OR let user pick
                 timestamp: new Date().toISOString(),
                 status: 'pending',
                 confidence: 100,
@@ -148,4 +148,4 @@ export const ManualEntryModal: React.FC<ManualEntryModalProps> = ({ isOpen, onCl
 };
 
 // Helper for random pick (simplified version of genData.ts version for local use if needed)
-function pick(arr: any[]) { return arr[Math.floor(Math.random() * arr.length)]; }
+function pick<T>(arr: T[]): T { return arr[Math.floor(Math.random() * arr.length)]; }

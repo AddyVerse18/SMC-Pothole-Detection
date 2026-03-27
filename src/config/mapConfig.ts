@@ -1,3 +1,4 @@
+/// <reference types="vite/client" />
 export const SURAT_CENTER = { lat: 21.1702, lng: 72.8311 };
 export const DEFAULT_ZOOM = 13;
 

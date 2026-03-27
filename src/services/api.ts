@@ -1,6 +1,6 @@
 import { MOCK_POTHOLES, ROAD_SEGMENTS } from '../data/mockData';
 import type { PotholeDetection, RoadSegment } from '../types';
-import type { IoTPotholePayload, IoTDeviceHealth } from '../types/iot';
+import type { IoTDeviceHealth } from '../types/iot';
 
 /**
  * MOCK API SERVICE

@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Info, AlertCircle, CheckCircle } from 'lucide-react';
+import { Info } from 'lucide-react';
 import { ToastMessage } from '../../hooks/useToasts';
 
 interface ToastSystemProps {

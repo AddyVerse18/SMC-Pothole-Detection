@@ -1,9 +1,8 @@
 import { useState, useMemo } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { Search, MapPin, ChevronRight, AlertCircle, Calendar } from 'lucide-react';
 import { useSimulation } from '../context/SimulationContext';
 import { PotholeDetailModal } from '../components/shared/PotholeDetailModal';
-import { PotholeDetection } from '../types';
 import { SURAT_AREAS } from '../data/simulationData';
 
 export default function ComplaintsPage() {
