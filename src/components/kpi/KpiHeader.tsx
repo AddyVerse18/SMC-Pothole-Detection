@@ -1,8 +1,8 @@
-import { useSimulation } from '../../context/SimulationContext';
+import { useDashboard } from '../../context/DashboardContext';
 import { AlertTriangle, Activity, Cpu, TrendingUp } from 'lucide-react';
 
 export default function KpiHeader() {
-  const { complaints } = useSimulation();
+  const { potholes: complaints } = useDashboard();
 
   const today = complaints.length; 
   const critical = complaints.filter((p) => p.severity === 'critical').length;

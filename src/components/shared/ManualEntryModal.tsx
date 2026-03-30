@@ -1,8 +1,12 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, MapPin, User, Send } from 'lucide-react';
-import { SuratArea, SURAT_AREAS, ROADS, ZONES } from '../../data/simulationData';
 import { PotholeDetection } from '../../types';
+
+const SURAT_AREAS = ['Athwa', 'Varachha', 'Limbayat', 'Katargam', 'Adajan'] as const;
+type SuratArea = typeof SURAT_AREAS[number];
+const ROADS = ['Ring Road', 'Dumas Road', 'Udhna Main Road', 'Varachha Main Road', 'L.P. Savani Road'];
+const ZONES = ['Athwa', 'Varachha', 'Limbayat', 'Katargam', 'Adajan'];
 
 interface ManualEntryModalProps {
   isOpen: boolean;

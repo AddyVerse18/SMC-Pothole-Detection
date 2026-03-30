@@ -1,5 +1,5 @@
 import type { PotholeDetection } from '../../types';
-import { X, MapPin, Clock, Cpu, Activity } from 'lucide-react';
+import { X, MapPin, Clock, Cpu, Activity, CameraOff } from 'lucide-react';
 
 interface PotholeInfoWindowProps {
   pothole: PotholeDetection;
@@ -31,15 +31,22 @@ export default function PotholeInfoWindow({ pothole, onClose }: PotholeInfoWindo
   return (
     <div className="w-[280px] bg-white rounded-xl shadow-kpi border border-slate-200 overflow-hidden text-navy-900 font-sans tracking-normal leading-normal">
       {/* Header image */}
-      <div className="relative h-[130px] bg-slate-100">
-        <img
-          src={`https://picsum.photos/seed/${pothole.id}/280/130`}
-          alt={`OV3660 capture — ${pothole.id}`}
-          className="w-full h-full object-cover"
-          onError={(e) => {
-            (e.target as HTMLImageElement).src = 'https://picsum.photos/280/130?grayscale';
-          }}
-        />
+      <div className="relative h-[130px] bg-slate-100 flex items-center justify-center overflow-hidden">
+        {pothole.imageUrl ? (
+          <img 
+            src={pothole.imageUrl}
+            alt={`Pothole ${pothole.id}`}
+            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+            onError={(e) => {
+              (e.target as HTMLImageElement).style.display = 'none';
+            }}
+          />
+        ) : (
+          <div className="flex flex-col items-center justify-center text-slate-400 opacity-50">
+            <CameraOff className="w-6 h-6 mb-1" />
+            <span className="text-[10px] uppercase font-bold tracking-wider">No Image</span>
+          </div>
+        )}
         {/* Gradient for badge readability */}
         <div className="absolute inset-x-0 top-0 h-10 bg-gradient-to-b from-black/40 to-transparent" />
         

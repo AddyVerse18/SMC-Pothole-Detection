@@ -4,15 +4,14 @@ import 'leaflet/dist/leaflet.css';
 import { divIcon } from 'leaflet';
 import { SURAT_CENTER, DEFAULT_ZOOM, SMC_ZONES } from '../../config/mapConfig';
 import { useDashboard } from '../../context/DashboardContext';
-import { useSimulation } from '../../context/SimulationContext';
+// removed simulation
 import PotholeInfoWindow from './PotholeInfoWindow';
 import JobCard from './JobCard';
 import { ZoomIn, ZoomOut, Crosshair, Map as MapIcon, Flame } from 'lucide-react';
 
 function MapController() {
   const map = useMap();
-  const { selectedPotholeId, selectedZone } = useDashboard();
-  const { complaints } = useSimulation();
+  const { selectedPotholeId, selectedZone, potholes: complaints } = useDashboard();
 
   useEffect(() => {
     if (!map || !selectedPotholeId) return;
@@ -68,8 +67,7 @@ const createMarkerIcon = (severity: string, isSelected: boolean) => {
 };
 
 export default function MapView() {
-  const { selectedPotholeId, setSelectedPotholeId, setSelectedSegmentId, selectedSegmentId } = useDashboard();
-  const { complaints } = useSimulation();
+  const { selectedPotholeId, setSelectedPotholeId, setSelectedSegmentId, selectedSegmentId, potholes: complaints } = useDashboard();
   const [showHeatmap, setShowHeatmap] = useState(false);
   const mapRef = useRef<any>(null);
 

@@ -1,12 +1,8 @@
 import MapView from '../components/map/MapView';
 import ActivityFeed from '../components/feed/ActivityFeed';
 import KpiHeader from '../components/kpi/KpiHeader';
-import { usePotholeSync } from '../hooks/usePotholeSync';
 
 function DashboardContent() {
-  // Acts as the IoT real-time listener: polls Django backend every 5 seconds
-  usePotholeSync(5000);
-
   return (
     <div className="flex flex-col md:flex-row h-full w-full bg-slate-100/50 overflow-hidden">
       {/* Main Content Area */}

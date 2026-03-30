@@ -10,6 +10,7 @@ export interface PotholeDetection {
   confidence: number; // 0-100
   zone: 'Athwa' | 'Varachha' | 'Limbayat' | 'Katargam' | 'Adajan';
   status: 'pending' | 'resolved' | 'assigned' | 'in-queue';
+  imageUrl?: string;
 }
 
 export interface RoadSegment {

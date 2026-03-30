@@ -1,11 +1,13 @@
 import { useState, FormEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Shield, Eye, EyeOff, AlertTriangle } from 'lucide-react';
+import { useAuth } from '../context/AuthContext';
 
 export default function LoginPage() {
   const navigate = useNavigate();
-  const [officialId, setOfficialId] = useState('');
-  const [password, setPassword] = useState('');
+  const { login } = useAuth();
+  const [officialId, setOfficialId] = useState('admin');
+  const [password, setPassword] = useState('admin');
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -18,10 +20,15 @@ export default function LoginPage() {
     }
     setError('');
     setIsLoading(true);
-    // Simulate API call
-    await new Promise((r) => setTimeout(r, 900));
-    setIsLoading(false);
-    navigate('/dashboard');
+    try {
+      // officialId is used as the email (Supabase Auth uses email/password)
+      await login(officialId.trim(), password);
+      navigate('/dashboard');
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : 'Login failed. Please try again.');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (

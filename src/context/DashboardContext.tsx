@@ -1,6 +1,7 @@
 import { createContext, useContext, useState, ReactNode, useEffect, useMemo } from 'react';
 import type { PotholeDetection, RoadSegment } from '../types';
-import { api } from '../services/api';
+import { api, socket, connectSocket, disconnectSocket, adaptDetection } from '../services/api';
+import { useToasts } from '../hooks/useToasts';
 
 /**
  * Industry-standard status mapping for the SMC Dashboard.
@@ -48,6 +49,7 @@ interface DashboardActions {
   setSearchQuery: (query: string) => void;
   setSelectedZone: (zone: SMCZone) => void;
   refreshData: (silent?: boolean) => Promise<void>;
+  updatePotholeStatus: (id: string, status: string) => Promise<void>;
 }
 
 type DashboardContextType = DashboardState & DashboardActions;
@@ -64,6 +66,7 @@ export function DashboardProvider({ children }: { children: ReactNode }) {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedZone, setSelectedZone] = useState<SMCZone>('All Zones');
   const [lastUpdated, setLastUpdated] = useState<Date | null>(null);
+  const [, addToast] = useToasts();
 
   const refreshData = async (silent = false) => {
     if (!silent) setIsLoading(true);
@@ -82,9 +85,38 @@ export function DashboardProvider({ children }: { children: ReactNode }) {
     }
   };
 
-  // Initial load
+  const updatePotholeStatus = async (id: string, status: string) => {
+    await api.updatePotholeStatus(id, status);
+    await refreshData(true);
+  };
+
+  // Initial load & Socket Subscriptions
   useEffect(() => {
     refreshData();
+    connectSocket();
+
+    const handleNewDetection = (raw: any) => {
+      const p = adaptDetection(raw);
+      setPotholes(prev => [p, ...prev]);
+      setLastUpdated(new Date());
+      addToast(`Real-time Alert: New ${p.severity} hazard detected at ${p.roadName}`);
+    };
+
+    const handleNewBatch = (raws: any[]) => {
+      const ps = raws.map(adaptDetection);
+      setPotholes(prev => [...ps, ...prev]);
+      setLastUpdated(new Date());
+      addToast(`Batch Alert: ${ps.length} offline gateway records just synced`);
+    };
+
+    socket.on('new_detection', handleNewDetection);
+    socket.on('new_detection_batch', handleNewBatch);
+
+    return () => {
+      socket.off('new_detection', handleNewDetection);
+      socket.off('new_detection_batch', handleNewBatch);
+      disconnectSocket();
+    };
   }, []);
 
   // Compute filtered datasets
@@ -132,6 +164,7 @@ export function DashboardProvider({ children }: { children: ReactNode }) {
     setSearchQuery,
     setSelectedZone,
     refreshData,
+    updatePotholeStatus,
   };
 
   return <DashboardContext.Provider value={value}>{children}</DashboardContext.Provider>;

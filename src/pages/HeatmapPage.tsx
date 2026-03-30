@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import { MapContainer, TileLayer, CircleMarker, useMap } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import { SURAT_CENTER, DEFAULT_ZOOM } from '../config/mapConfig';
-import { usePotholeSync } from '../hooks/usePotholeSync';
 import { api } from '../services/api';
 import type { PotholeDetection } from '../types';
 import { Map as MapIcon, FlameKindling } from 'lucide-react';
@@ -51,7 +50,6 @@ function HeatmapNodes({ data }: { data: PotholeDetection[] }) {
 
 export default function HeatmapPage() {
   const [data, setData] = useState<PotholeDetection[]>([]);
-  usePotholeSync(5000); // Poll in background to simulate live updates
 
   useEffect(() => {
     api.getPotholes().then(setData);

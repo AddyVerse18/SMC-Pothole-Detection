@@ -1,8 +1,8 @@
 import { useEffect, useRef } from 'react';
 import type { PotholeDetection } from '../../types';
 import { useDashboard, STATUS_MAP } from '../../context/DashboardContext';
-import { useSimulation } from '../../context/SimulationContext';
-import { Clock, Cpu, MapPin, Activity, Search, Filter } from 'lucide-react';
+// simulation removed
+import { Clock, Cpu, MapPin, Activity, Search, Filter, CameraOff } from 'lucide-react';
 
 type JobStatus = 'In Queue' | 'Assigned' | 'Repaired';
 
@@ -62,15 +62,22 @@ function TaskCard({ pothole, isSelected, onClick }: TaskCardProps) {
       }`}
     >
       {/* Thumbnail row */}
-      <div className="relative h-28 bg-slate-100 overflow-hidden">
-        <img
-          src={`https://picsum.photos/seed/${pothole.id}/320/112`}
-          alt={`OV3660 capture ${pothole.id}`}
-          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-          onError={(e) => {
-            (e.target as HTMLImageElement).src = 'https://picsum.photos/320/112?grayscale';
-          }}
-        />
+      <div className="relative h-28 bg-slate-100 overflow-hidden flex items-center justify-center">
+        {pothole.imageUrl ? (
+          <img
+            src={pothole.imageUrl}
+            alt={`Capture ${pothole.id}`}
+            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+            onError={(e) => {
+              (e.target as HTMLImageElement).style.display = 'none';
+            }}
+          />
+        ) : (
+          <div className="flex flex-col items-center justify-center text-slate-400 opacity-50">
+            <CameraOff className="w-6 h-6 mb-1" />
+            <span className="text-[9px] uppercase font-black tracking-widest">No Capture</span>
+          </div>
+        )}
         {/* Gradient overlay */}
         <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
 
@@ -127,10 +134,9 @@ export default function ActivityFeed() {
     activeFilter,
     setActiveFilter,
     searchQuery,
-    setSearchQuery
+    setSearchQuery,
+    potholes: complaints
   } = useDashboard();
-
-  const { complaints } = useSimulation();
 
   const filteredComplaints = complaints.filter((p: PotholeDetection) => {
     const q = (searchQuery || '').toLowerCase();

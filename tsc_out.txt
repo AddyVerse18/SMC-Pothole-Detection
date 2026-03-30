@@ -1,0 +1,15 @@
+src/components/map/PotholeMarker.tsx(1,1): error TS6133: 'useState' is declared but its value is never read.
+src/components/map/PotholeMarker.tsx(3,32): error TS2307: Cannot find module '@vis.gl/react-google-maps' or its corresponding type declarations.
+src/components/shared/ManualEntryModal.tsx(3,21): error TS6133: 'AlertTriangle' is declared but its value is never read.
+src/components/shared/ManualEntryModal.tsx(4,10): error TS6133: 'SMCZone' is declared but its value is never read.
+src/components/shared/ManualEntryModal.tsx(61,28): error TS2345: Argument of type 'readonly ["Athwa", "Varachha", "Limbayat", "Katargam", "Adajan"]' is not assignable to parameter of type 'any[]'.
+  The type 'readonly ["Athwa", "Varachha", "Limbayat", "Katargam", "Adajan"]' is 'readonly' and cannot be assigned to the mutable type 'any[]'.
+src/components/shared/ToastSystem.tsx(3,16): error TS6133: 'AlertCircle' is declared but its value is never read.
+src/components/shared/ToastSystem.tsx(3,29): error TS6133: 'CheckCircle' is declared but its value is never read.
+src/config/mapConfig.ts(13,48): error TS2339: Property 'env' does not exist on type 'ImportMeta'.
+src/config/mapConfig.ts(14,35): error TS2339: Property 'env' does not exist on type 'ImportMeta'.
+src/pages/ComplaintsPage.tsx(2,18): error TS6133: 'AnimatePresence' is declared but its value is never read.
+src/pages/ComplaintsPage.tsx(6,1): error TS6133: 'PotholeDetection' is declared but its value is never read.
+src/services/api.ts(3,15): error TS6196: 'IoTPotholePayload' is declared but never used.
+
+

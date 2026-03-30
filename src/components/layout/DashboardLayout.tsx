@@ -3,14 +3,12 @@ import { Outlet } from 'react-router-dom';
 import Sidebar from './Sidebar';
 import Header from './Header';
 import { DashboardProvider } from '../../context/DashboardContext';
-import { SimulationProvider, useSimulation } from '../../context/SimulationContext';
 import { ToastSystem } from '../shared/ToastSystem';
 import { ManualEntryModal } from '../shared/ManualEntryModal';
 import { useToasts } from '../../hooks/useToasts';
 
 function DashboardLayoutContent() {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const { addComplaint } = useSimulation();
   const [toasts, addToast] = useToasts();
 
   return (
@@ -32,8 +30,8 @@ function DashboardLayoutContent() {
         isOpen={isModalOpen} 
         onClose={() => setIsModalOpen(false)} 
         onSubmit={(data) => {
-          addComplaint(data as any);
-          addToast("Manual complaint registered successfully.");
+          console.warn('Manual entry to real backend not yet hooked up', data);
+          addToast("Manual entry recorded locally (Pending Backend Sync).");
         }} 
       />
       <ToastSystem toasts={toasts} />
@@ -43,10 +41,8 @@ function DashboardLayoutContent() {
 
 export default function DashboardLayout() {
   return (
-    <SimulationProvider>
-      <DashboardProvider>
-        <DashboardLayoutContent />
-      </DashboardProvider>
-    </SimulationProvider>
+    <DashboardProvider>
+      <DashboardLayoutContent />
+    </DashboardProvider>
   );
 }

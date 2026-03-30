@@ -1,12 +1,13 @@
 import { useState, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { Search, MapPin, ChevronRight, AlertCircle, Calendar } from 'lucide-react';
-import { useSimulation } from '../context/SimulationContext';
+import { useDashboard } from '../context/DashboardContext';
 import { PotholeDetailModal } from '../components/shared/PotholeDetailModal';
-import { SURAT_AREAS } from '../data/simulationData';
+// The SURAT_AREAS is removed from simulationData since we are deleting it soon.
+const SURAT_AREAS = ['Athwa', 'Varachha', 'Limbayat', 'Katargam', 'Adajan'];
 
 export default function ComplaintsPage() {
-  const { complaints, resolveComplaint, markInProgress } = useSimulation();
+  const { potholes: complaints, updatePotholeStatus } = useDashboard();
   const [selectedPotholeId, setSelectedPotholeId] = useState<string | null>(null);
   
   // Filters
@@ -173,8 +174,8 @@ export default function ComplaintsPage() {
       <PotholeDetailModal 
         pothole={selectedPothole}
         onClose={() => setSelectedPotholeId(null)}
-        onResolve={resolveComplaint}
-        onInProgress={markInProgress}
+        onResolve={(id) => updatePotholeStatus(id, 'resolved')}
+        onInProgress={(id) => updatePotholeStatus(id, 'assigned')}
       />
     </div>
   );

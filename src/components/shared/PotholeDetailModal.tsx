@@ -74,13 +74,23 @@ export const PotholeDetailModal: React.FC<PotholeDetailModalProps> = ({
               <h2 className="text-2xl font-black text-navy-900 leading-tight">
                 {pothole.id}
               </h2>
-              <p className="text-slate-400 text-sm flex items-center gap-1.5">
+              <p className="text-slate-400 text-sm flex items-center gap-1.5 mb-4">
                 <Navigation className="w-3.5 h-3.5" />
                 GPS: {pothole.lat.toFixed(4)}, {pothole.lng.toFixed(4)}
               </p>
             </div>
 
-            <div className="grid grid-cols-2 gap-4">
+            {pothole.imageUrl && (
+              <div className="w-full h-48 bg-slate-100 rounded-2xl overflow-hidden shadow-sm border border-slate-200">
+                <img 
+                  src={pothole.imageUrl} 
+                  alt="Pothole capture" 
+                  className="w-full h-full object-cover object-center"
+                />
+              </div>
+            )}
+
+            <div className="grid grid-cols-2 gap-4 mt-2">
               <div className="bg-slate-50 p-4 rounded-2xl border border-slate-100">
                 <div className="flex items-center gap-2 mb-1">
                   <MapPin className="w-3.5 h-3.5 text-slate-400" />
